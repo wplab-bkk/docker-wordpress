@@ -1,7 +1,8 @@
 version: '3'
 services:
   wordpress:
-    image: wordpress:5.2.2
+    # image: wordpress:5.2.2
+    build: ./wordpress
     container_name: wordpress
     restart: always
     env_file: .env
@@ -19,8 +20,6 @@ services:
     env_file: .env
     volumes:
       - ./mysql:/var/lib/mysql
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       
 
   mysql_jobs:
@@ -29,8 +28,6 @@ services:
     user: root
     env_file: .env
     volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
       - ./mysql_job_backup/backup:/opt/mysql/backup
     command: crond -f -d 8
     restart: always
