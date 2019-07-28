@@ -1,4 +1,4 @@
-/*! elementor - v2.6.5 - 18-07-2019 */
+/*! elementor - v2.6.6 - 23-07-2019 */
 @charset "UTF-8";
 *, :before, :after {
   margin: 0;
@@ -4424,9 +4424,9 @@ label.elementor-template-library-order-label {
   padding-right: 5px;
   z-index: 91; }
   .elementor-navigator__element__indicators:not(:hover) {
-    -webkit-transform: translateX(calc(100% - 8px));
-        -ms-transform: translateX(calc(100% - 8px));
-            transform: translateX(calc(100% - 8px)); }
+    -webkit-transform: translateX(calc(-100% + 8px));
+        -ms-transform: translateX(calc(-100% + 8px));
+            transform: translateX(calc(-100% + 8px)); }
 
 .elementor-navigator__element__indicator {
   height: 100%;
@@ -4567,6 +4567,9 @@ body:not(.elementor-device-desktop) #elementor-notice-bar {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between; }
+  @media (max-width: 1439px) {
+    #elementor-icons-manager__upload {
+      margin: 20px 25px; } }
   #elementor-icons-manager__upload__title {
     color: #a4afb7;
     font-size: 11px;

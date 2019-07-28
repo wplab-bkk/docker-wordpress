@@ -4,7 +4,7 @@
  * Description: The ultimate elements library for Elementor page builder plugin for WordPress.
  * Plugin URI: https://essential-addons.com/elementor/
  * Author: WPDeveloper
- * Version: 3.1.3
+ * Version: 3.1.4
  * Author URI: https://wpdeveloper.net/
  *
  * Text Domain: essential-addons-elementor
@@ -24,9 +24,9 @@ define('EAEL_PLUGIN_FILE', __FILE__);
 define('EAEL_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EAEL_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('EAEL_PLUGIN_URL', plugins_url('/', __FILE__));
-define('EAEL_PLUGIN_VERSION', '3.1.3');
-define('EAEL_ASSET_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'essential-addons-elementor');
-define('EAEL_ASSET_URL', WP_CONTENT_URL . '/essential-addons-elementor');
+define('EAEL_PLUGIN_VERSION', '3.1.4');
+define('EAEL_ASSET_PATH', WP_CONTENT_DIR . '/uploads/essential-addons-elementor');
+define('EAEL_ASSET_URL', WP_CONTENT_URL . '/uploads/essential-addons-elementor');
 
 /**
  * Including composer autoloader globally.
@@ -34,6 +34,13 @@ define('EAEL_ASSET_URL', WP_CONTENT_URL . '/essential-addons-elementor');
  * @since 3.0.0
  */
 require_once EAEL_PLUGIN_PATH . 'autoload.php';
+
+/**
+ * Including plugin config.
+ *
+ * @since 3.0.0
+ */
+require_once EAEL_PLUGIN_PATH . 'config.php';
 
 /**
  * Run plugin after all others plugins

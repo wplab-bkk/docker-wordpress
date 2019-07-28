@@ -117,43 +117,48 @@ trait Core
         );
     }
 
+    /**
+     * Save default values to db
+     *
+     * @since v3.0.0
+     */
     public function set_default_values()
     {
-        $defaults = array_fill_keys([
-            'post-grid',
-            'post-timeline',
-            'fancy-text',
-            'creative-btn',
-            'count-down',
-            'team-members',
-            'testimonials',
-            'info-box',
-            'flip-box',
-            'call-to-action',
-            'dual-header',
-            'price-table',
-            'twitter-feed',
-            'data-table',
-            'filter-gallery',
-            'image-accordion',
-            'content-ticker',
-            'tooltip',
-            'adv-accordion',
-            'adv-tabs',
-            'progress-bar',
-            'feature-list',
-            'product-grid',
-            'contact-form-7',
-            'weforms',
-            'ninja-form',
-            'gravity-form',
-            'caldera-form',
-            'wpforms',
-            'global-elements-control',
-        ], 1);
-
+        $defaults = array_fill_keys(array_keys(array_merge(EAEL_PLUGIN_MAPS['elements'], EAEL_PLUGIN_MAPS['extensions'])), 1);
         $values = get_option('eael_save_settings');
 
         return update_option('eael_save_settings', wp_parse_args($values, $defaults));
+    }
+
+    /**
+     * Save default values to db
+     *
+     * @since v3.0.0
+     */
+    public function save_global_values($post_id, $editor_data)
+    {
+        $page_settings_manager = \Elementor\Core\Settings\Manager::get_settings_managers('page');
+        $page_settings_model = $page_settings_manager->get_model($post_id);
+        $eael_ext_reading_progress_global = $page_settings_model->get_settings('eael_ext_reading_progress_global');
+        $global_settings = get_option('eael_global_settings');
+
+        if($page_settings_model->get_settings('eael_ext_reading_progress_global') == 'yes') {
+            $global_settings['reading_progress'] = [
+                'post_id' => $post_id,
+                'enabled' => ($page_settings_model->get_settings('eael_ext_reading_progress_global') == 'yes' ? true : false),
+                'display_condition' => $page_settings_model->get_settings('eael_ext_reading_progress_global_display_condition'),
+                'position' => $page_settings_model->get_settings('eael_ext_reading_progress_position'),
+                'height' => $page_settings_model->get_settings('eael_ext_reading_progress_height'),
+                'bg_color' => $page_settings_model->get_settings('eael_ext_reading_progress_bg_color'),
+                'fill_color' => $page_settings_model->get_settings('eael_ext_reading_progress_fill_color'),
+                'animation_speed' => $page_settings_model->get_settings('eael_ext_reading_progress_animation_speed'),
+            ];
+        } else {
+            if($global_settings['reading_progress']['post_id'] == $post_id) {
+                $global_settings['reading_progress'] = [];
+            }
+        }
+
+        update_option('eael_global_settings', $global_settings);
     }
 }

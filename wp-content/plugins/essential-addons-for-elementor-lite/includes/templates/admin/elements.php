@@ -6,7 +6,7 @@ $elements = [
         'elements'  => [
             [
                 'key'   => 'creative-btn',
-                'title' => __( 'Creative Button', 'essential-addons-elementor' ),
+                'title' => __( 'Creative Buttons', 'essential-addons-elementor' ),
             ],
             [
                 'key'   => 'team-members',
@@ -291,7 +291,7 @@ $elements = [
                 'is_pro' => true
             ],
         ]
-    ]
+    ],
 ];
 
 $elements = apply_filters( 'add_eael_elementor_addons', $elements );
