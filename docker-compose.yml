@@ -21,14 +21,11 @@ services:
       - ./mysql:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
 
-  mysql-jobs:
+  mysql_jobs:
     build: ./mysql_job_backup
     container_name: mysql_backup
     user: root
-    environment:
-      MYSQL_CONTAINER_NAME: mysql
-      MYSQL_DATABASE: wpdb
-      MYSQL_ROOT_PASSWORD: root
+    env_file: .env
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./mysql_job_backup/backup:/opt/mysql/backup
