@@ -6,6 +6,9 @@ ENV TZ Asia/Bangkok
 
 COPY ./scripts/15min/* /etc/periodic/15min
 COPY ./scripts/daily/* /etc/periodic/daily
+COPY ./scripts/weekly/* /etc/periodic/weekly
+COPY ./scripts/monthly/* /etc/periodic/monthly
+
 
 RUN apk update && \
     apk upgrade && \

@@ -2,7 +2,7 @@
 
 echo "Start Mysql Backup Proccess"
 BACKUP_FOLDER="/opt/mysql/backup/15min"
-NOW=$(date "+%Y-%m-%d-%H-%i-%s")
+NOW=$(date "+%Y-%m-%d-%H:%M:%S")
 
 GZIP="$(which gzip)"
 MYSQLDUMP="$(which mysqldump)"
