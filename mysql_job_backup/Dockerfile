@@ -4,9 +4,8 @@ ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_CONTAINER_NAME=mysql
 ENV TZ Asia/Bangkok
 
-
-
-COPY ./scripts/* /etc/periodic
+COPY ./scripts/15min/* /etc/periodic/15min
+COPY ./scripts/daily/* /etc/periodic/daily
 
 RUN apk update && \
     apk upgrade && \
