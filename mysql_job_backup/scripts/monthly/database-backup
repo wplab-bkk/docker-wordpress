@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Start Mysql Backup Proccess"
-BACKUP_FOLDER="/opt/mysql/backup/15min"
+BACKUP_FOLDER="/opt/mysql/backup/monthly"
 NOW=$(date "+%Y-%m-%d-%H:%M:%S")
 
 GZIP="$(which gzip)"
@@ -17,4 +17,4 @@ MUSER="root"
 
 FILE=$BACKUP_FOLDER/backup-monthly-$MDB-$NOW.sql.gz
 $MYSQLDUMP -h $MHOST -u $MUSER -p$MPASS $MDB | $GZIP -9 > $FILE
-echo 'Backup Database Successfuly on Hourly Shedule!'
+echo 'Backup Database Successfuly on Monthly Shedule!'

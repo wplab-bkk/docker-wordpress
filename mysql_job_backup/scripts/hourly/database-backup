@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Start Mysql Backup Proccess"
-BACKUP_FOLDER="/opt/mysql/backup/15min"
+BACKUP_FOLDER="/opt/mysql/backup/hourly"
 NOW=$(date "+%Y-%m-%d-%H:%M:%S")
 
 GZIP="$(which gzip)"
