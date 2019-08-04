@@ -1,7 +1,7 @@
 version: '3'
 services:
   wordpress:
-    # image: wordpress:5.2.2
+    image: wordpress:5.2.2
     build: ./wordpress
     container_name: wordpress
     restart: always
@@ -21,7 +21,6 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
       - ./mysql_job_backup/backup:/opt/mysql/backup
-    #build: ./mysql_job_backup/restore
 
   mysql_jobs:
     build: ./mysql_job_backup
