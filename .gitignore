@@ -1,4 +1,6 @@
 # wordpress/
 node_modules/
 bower_components/
-logs/nginx/*
+logs/*
+mysql_job_backup/backup/*
+mysql/*
