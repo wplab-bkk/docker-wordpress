@@ -10,7 +10,7 @@ services:
       - ./wp-content:/var/www/html/wp-content
     ports:
       - 8088:80
-      - 8443:443
+      - 443:443
 
   mysql:
     image: mariadb:10.2.16
