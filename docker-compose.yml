@@ -8,6 +8,7 @@ services:
     env_file: .env
     volumes:
       - ./wp-content:/var/www/html/wp-content
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     ports:
       - 8088:80
       - 443:443
