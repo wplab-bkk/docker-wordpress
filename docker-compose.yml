@@ -2,11 +2,13 @@ version: '3'
 services:
   wordpress:
     image: wordpress:5.2.2
+    build: ./wordpress
     container_name: wordpress
     restart: always
     env_file: .env
     volumes:
       - ./wp-content:/var/www/html/wp-content
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
     ports:
       - 8088:80
       - 443:443
@@ -19,28 +21,25 @@ services:
     env_file: .env
     volumes:
       - ./mysql:/var/lib/mysql
-      - /etc/localtime:/etc/localtime:ro
+      - ./mysql_job_backup/backup:/opt/mysql/backup
 
-  mysql-jobs:
+  mysql_jobs:
     build: ./mysql_job_backup
     container_name: mysql_backup
     user: root
-    environment:
-      MYSQL_CONTAINER_NAME: mysql
-      MYSQL_DATABASE: wpdb
-      MYSQL_ROOT_PASSWORD: root
+    env_file: .env
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - ./mysql_job_backup/backup:/opt/mysql/backup
     command: crond -f -d 8
     restart: always
+
 
   adminer:
     image: adminer
     container_name: adminer
     restart: always
     ports:
-      - 3333:8080
+      - 8080:8080
     env_file: .env
 
   nginx:

@@ -1,4 +1,6 @@
-wordpress/
+# wordpress/
 node_modules/
-bower-components/
-logs/
+bower_components/
+logs/*
+mysql_job_backup/backup/*
+mysql/*
