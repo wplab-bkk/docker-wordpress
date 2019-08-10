@@ -1,17 +1,16 @@
 version: '2'
 services:
-  wordpress:
-    image: wordpress:5.2.2
-    build: ./wordpress
-    container_name: wordpress
-    restart: always
-    env_file: .env
-    volumes:
-      - ./wp-content:/usr/share/nginx/html
-      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-    ports:
-      - 8088:80
-
+#  wordpress:
+#    image: wordpress:5.2.2
+#    build: ./wordpress
+#    container_name: wordpress
+#    restart: always
+#    env_file: .env
+#    volumes:
+#      - ./wp-content:/usr/share/nginx/html
+#      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+#   ports:
+#      - 8088:80
   mysql:
     image: mariadb:10.2.16
     container_name: mysql
@@ -43,24 +42,25 @@ services:
     env_file: .env
 
   nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
+    image: jwilder/nginx-proxy
     container_name: nginx-proxy
     privileged: true
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
-        - ./logs/nginx/:/var/log/nginx
-        - ./certs:/etc/nginx/certs:rw
-        - ./nginx:/etc/nginx/vhost.d:rw
-        - ./wp-content:/usr/share/nginx/html:rw
-        - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./logs/nginx/:/var/log/nginx
+      - ./certs:/etc/nginx/certs:rw
+      - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
+      - ./nginx/conf.d:/etc/nginx/vhost.d:rw
+      - ./wp-content:/usr/share/nginx/html:rw
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
       - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
     build:
        context: .
-    links:
-        - wordpress
+#    links:
+#        - wordpress
     restart: always
 
   letsencrypt:
@@ -74,6 +74,7 @@ services:
     depends_on:
       - nginx-proxy
     volumes_from:
+
       - nginx-proxy
 
 #wordpress http://wp-docker.test/wp-admin
