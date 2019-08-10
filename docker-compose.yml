@@ -1,35 +1,35 @@
 version: '2'
 services:
-  # wordpress:
-  #   image: wordpress:5.2.2
-  #   build: ./wordpress
-  #   container_name: wordpress
-  #   restart: always
-  #   env_file: .env
-  #   volumes:
-  #     - ./wp-content:/usr/share/nginx/html
-  #     - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-  #   ports:
-  #     - 8088:80
-  # mysql:
-  #   image: mariadb:10.2.16
-  #   container_name: mysql
-  #   restart: always
-  #   #command: "--default-authentication-plugin=mysql_native_password"
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql:/var/lib/mysql
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
+  wordpress:
+    image: wordpress:5.2.2
+    build: ./wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - ./wp-content:/usr/share/nginx/html
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+    ports:
+      - 8088:80
+  mysql:
+    image: mariadb:10.2.16
+    container_name: mysql
+    restart: always
+    #command: "--default-authentication-plugin=mysql_native_password"
+    env_file: .env
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./mysql_job_backup/backup:/opt/mysql/backup
 
-  # mysql_jobs:
-  #   build: ./mysql_job_backup
-  #   container_name: mysql_backup
-  #   user: root
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
-  #   command: crond -f -d 8
-  #   restart: always
+  mysql_jobs:
+    build: ./mysql_job_backup
+    container_name: mysql_backup
+    user: root
+    env_file: .env
+    volumes:
+      - ./mysql_job_backup/backup:/opt/mysql/backup
+    command: crond -f -d 8
+    restart: always
 
 
   adminer:
@@ -39,7 +39,7 @@ services:
     restart: always
     ports:
       - "3333:80"
-    #env_file: .env
+    env_file: .env
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -55,10 +55,10 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
-    # build:
-    #    context: .
-    # links:
-    #     - wordpress
+    build:
+       context: .
+    links:
+        - wordpress
     restart: always
 
   nginx-codemunha:
