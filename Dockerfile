@@ -1,5 +1,6 @@
 FROM nginx:latest
-COPY   nginx/nginx.conf /etc/nginx/conf.d/default.conf
+#COPY   nginx/vhost.d/wordpress.thinnycode.conf /etc/nginx/conf.d
+
 
 ENV TZ Asia/Bangkok
 
