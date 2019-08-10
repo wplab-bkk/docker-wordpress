@@ -64,9 +64,9 @@ services:
   nginx-thinnycode:
     image: nginx
     container_name: nginx-thinnycode
-    # volumes:
+    volumes:
     #   - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
-    #   - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
     restart: always
     environment: 
       - VIRTUAL_HOST=thinnycode.com
