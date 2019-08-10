@@ -51,7 +51,7 @@ services:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
-      - ./nginx/www:/usr/share/nginx/html:rw
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
@@ -98,6 +98,7 @@ services:
     env_file: .env
     volumes:
       - ./certs:/etc/nginx/certs:rw
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     # depends_on:
     #   - nginx-proxy
