@@ -1,35 +1,35 @@
 version: '2'
 services:
-  wordpress:
-    image: wordpress:5.2.2
-    build: ./wordpress
-    container_name: wordpress
-    restart: always
-    env_file: .env
-    volumes:
-      - ./wp-content:/usr/share/nginx/html
-      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-    ports:
-      - 8088:80
-  mysql:
-    image: mariadb:10.2.16
-    container_name: mysql
-    restart: always
-    #command: "--default-authentication-plugin=mysql_native_password"
-    env_file: .env
-    volumes:
-      - ./mysql:/var/lib/mysql
-      - ./mysql_job_backup/backup:/opt/mysql/backup
+  # wordpress:
+  #   image: wordpress:5.2.2
+  #   build: ./wordpress
+  #   container_name: wordpress
+  #   restart: always
+  #   env_file: .env
+  #   volumes:
+  #     - ./wp-content:/usr/share/nginx/html
+  #     - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+  #   ports:
+  #     - 8088:80
+  # mysql:
+  #   image: mariadb:10.2.16
+  #   container_name: mysql
+  #   restart: always
+  #   #command: "--default-authentication-plugin=mysql_native_password"
+  #   env_file: .env
+  #   volumes:
+  #     - ./mysql:/var/lib/mysql
+  #     - ./mysql_job_backup/backup:/opt/mysql/backup
 
-  mysql_jobs:
-    build: ./mysql_job_backup
-    container_name: mysql_backup
-    user: root
-    env_file: .env
-    volumes:
-      - ./mysql_job_backup/backup:/opt/mysql/backup
-    command: crond -f -d 8
-    restart: always
+  # mysql_jobs:
+  #   build: ./mysql_job_backup
+  #   container_name: mysql_backup
+  #   user: root
+  #   env_file: .env
+  #   volumes:
+  #     - ./mysql_job_backup/backup:/opt/mysql/backup
+  #   command: crond -f -d 8
+  #   restart: always
 
 
   adminer:
@@ -39,29 +39,57 @@ services:
     restart: always
     ports:
       - "3333:80"
-    env_file: .env
+    #env_file: .env
 
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
-    privileged: true
-    ports:
-      - 80:80
-      - 443:443
+    #ports:
+    #  - 80:80
+    #  - 443:443
     volumes:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
-      - ./nginx/conf.d:/etc/nginx/vhost.d:rw
-      - ./wp-content:/usr/share/nginx/html:rw
+      - ./nginx/www:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
-      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
-    build:
-       context: .
-    links:
-        - wordpress
+       - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
+    # build:
+    #    context: .
+    # links:
+    #     - wordpress
     restart: always
+
+  nginx-thinnycode:
+    image: nginx
+    container_name: nginx-thinnycode
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
+    restart: always
+    environment: 
+      - VIRTUAL_HOST=thinnycode.com
+      - LETSENCRYPT_HOST=thinnycode.com
+      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+
+  # nginx-wrdpress.thinnycode:
+  #   image: nginx
+  #   container_name: nginx-wrdpress.thinnycode
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
+  #     - ./servers/wordpress.thinnycode.com:/usr/share/nginx/html:rw
+  #   restart: always
+  #   environment: 
+  #     - VIRTUAL_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -71,10 +99,9 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    depends_on:
-      - nginx-proxy
+    # depends_on:
+    #   - nginx-proxy
     volumes_from:
-
       - nginx-proxy
 
 #wordpress http://wp-docker.test/wp-admin
