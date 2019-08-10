@@ -72,8 +72,8 @@ services:
       - ./servers/thinnycode:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=thinnycode.com
-      - LETSENCRYPT_HOST=thinnycode.com
+      - VIRTUAL_HOST=thinnycode.com,www.thinnycode.com
+      - LETSENCRYPT_HOST=thinnycode.com,www.thinnycode.com
       - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
   # nginx-wrdpress.thinnycode:
