@@ -1,16 +1,16 @@
 version: '2'
 services:
-#  wordpress:
-#    image: wordpress:5.2.2
-#    build: ./wordpress
-#    container_name: wordpress
-#    restart: always
-#    env_file: .env
-#    volumes:
-#      - ./wp-content:/usr/share/nginx/html
-#      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-#   ports:
-#      - 8088:80
+  wordpress:
+    image: wordpress:5.2.2
+    build: ./wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - ./wp-content:/usr/share/nginx/html
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+    ports:
+      - 8088:80
   mysql:
     image: mariadb:10.2.16
     container_name: mysql
@@ -59,8 +59,8 @@ services:
       - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
     build:
        context: .
-#    links:
-#        - wordpress
+    links:
+        - wordpress
     restart: always
 
   letsencrypt:
