@@ -44,9 +44,9 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
-    #ports:
-    #  - 80:80
-    #  - 443:443
+    ports:
+     - 80:80
+     - 443:443
     volumes:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
@@ -64,16 +64,13 @@ services:
   nginx-thinnycode:
     image: nginx
     container_name: nginx-thinnycode
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+    # volumes:
+    #   - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
+    #   - ./servers/thinnycode:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=thinnycode.com,www.thinnycode.com
-      - LETSENCRYPT_HOST=thinnycode.com,www.thinnycode.com
+      - VIRTUAL_HOST=thinnycode.com
+      - LETSENCRYPT_HOST=thinnycode.com
       - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
   # nginx-wrdpress.thinnycode:
