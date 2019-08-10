@@ -51,7 +51,7 @@ services:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./servers/codemunha:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
@@ -61,29 +61,29 @@ services:
     #     - wordpress
     restart: always
 
-  nginx-thinnycode:
+  nginx-codemunha:
     image: nginx
-    container_name: nginx-thinnycode
+    container_name: nginx-codemunha
     volumes:
-      - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./logs/nginx/codemunha:/var/log/nginx/codemunha
+      - ./servers/codemunha:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=thinnycode.com
-      - LETSENCRYPT_HOST=thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+      - VIRTUAL_HOST=codemunha.com
+      - LETSENCRYPT_HOST=codemunha.com
+      - LETSENCRYPT_EMAIL=admin@codemunha.com
 
-  nginx-wrdpress.thinnycode:
+  nginx-wrdpress.codemunha:
     image: nginx
-    container_name: nginx-wrdpress.thinnycode
+    container_name: nginx-wrdpress.codemunha
     volumes:
-      - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
-      - ./servers/wordpress.thinnycode:/usr/share/nginx/html:rw
+      - ./logs/nginx/blog.codemunha:/var/log/nginx/blog.codemunha
+      - ./servers/blog.codemunha:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+      - VIRTUAL_HOST=blog.codemunha.com
+      - LETSENCRYPT_HOST=blog.codemunha.com
+      - LETSENCRYPT_EMAIL=admin@codemunha.com
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -92,7 +92,7 @@ services:
     env_file: .env
     volumes:
       - ./certs:/etc/nginx/certs:rw
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./servers/codemunha:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
