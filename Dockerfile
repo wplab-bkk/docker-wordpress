@@ -1,8 +1,5 @@
-FROM nginx:latest
-#COPY   nginx/vhost.d/wordpress.thinnycode.conf /etc/nginx/conf.d
+FROM nginx
 
-
+# Update timezone
 ENV TZ Asia/Bangkok
 
-VOLUME /var/log/nginx/log/
-EXPOSE 80
