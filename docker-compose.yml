@@ -11,25 +11,28 @@ services:
   #     - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
   #   ports:
   #     - 8088:80
-  # mysql:
-  #   image: mariadb:10.2.16
-  #   container_name: mysql
-  #   restart: always
-  #   #command: "--default-authentication-plugin=mysql_native_password"
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql:/var/lib/mysql
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
 
-  # mysql_jobs:
-  #   build: ./mysql_job_backup
-  #   container_name: mysql_backup
-  #   user: root
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
-  #   command: crond -f -d 8
-  #   restart: always
+  # MYSQL DATABASE
+  mysql:
+    image: mariadb:10.2.16
+    container_name: mysql
+    restart: always
+    #command: "--default-authentication-plugin=mysql_native_password"
+    env_file: .env
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./mysql_job_backup/backup:/opt/mysql/backup
+  
+  # MSQL BACKUP CROND
+  mysql_jobs:
+    build: ./mysql_job_backup
+    container_name: mysql_backup
+    user: root
+    env_file: .env
+    volumes:
+      - ./mysql_job_backup/backup:/opt/mysql/backup
+    command: crond -f -d 8
+    restart: always
 
   # Adminer
   adminer:
