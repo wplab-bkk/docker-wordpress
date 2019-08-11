@@ -1,16 +1,20 @@
 version: '2'
 services:
-  # wordpress:
-  #   image: wordpress:5.2.2
-  #   build: ./wordpress
-  #   container_name: wordpress
-  #   restart: always
-  #   env_file: .env
-  #   volumes:
-  #     - ./wp-content:/usr/share/nginx/html
-  #     - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-  #   ports:
-  #     - 8088:80
+  wordpress:
+    image: wordpress:5.2.2
+    build: ./wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - ./wp-content:/usr/share/nginx/html:rw
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment: 
+      - VIRTUAL_HOST=wordpress.thinnycode.com
+      - LETSENCRYPT_HOST=wordpress.thinnycode.com
+      - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
   # MYSQL DATABASE
   mysql:
@@ -84,18 +88,18 @@ services:
       - LETSENCRYPT_HOST=thinnycode.com
       - LETSENCRYPT_EMAIL=admin@thinnycode.com
  
-  # Wordpress
-  nginx-wrdpress.thinnycode:
-    image: nginx
-    container_name: nginx-wrdpress.thinnycode
-    volumes:
-      - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
-      - ./servers/wordpress.thinnycode:/usr/share/nginx/html:rw
-    restart: always
-    environment: 
-      - VIRTUAL_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+  # # Wordpress
+  # nginx-wrdpress.thinnycode:
+  #   image: nginx
+  #   container_name: nginx-wrdpress.thinnycode
+  #   volumes:
+  #     - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
+  #     - ./servers/wordpress.thinnycode:/usr/share/nginx/html:rw
+  #   restart: always
+  #   environment: 
+  #     - VIRTUAL_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
   # Auto SSL & Letsencrypt
   letsencrypt:
