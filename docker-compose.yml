@@ -12,9 +12,9 @@ services:
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment: 
-      - VIRTUAL_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_HOST=wordpress.thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+      - VIRTUAL_HOST=blog.codemunha.com
+      - LETSENCRYPT_HOST=blog.codemunha.com
+      - LETSENCRYPT_EMAIL=info@codemunha.com
 
   # MYSQL DATABASE
   mysql:
@@ -46,9 +46,9 @@ services:
     restart: always
     env_file: .env
     environment: 
-      - VIRTUAL_HOST=adminer.thinnycode.com
-      - LETSENCRYPT_HOST=adminer.thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+      - VIRTUAL_HOST=adminer.codemunha.com
+      - LETSENCRYPT_HOST=adminer.codemunha.com
+      - LETSENCRYPT_EMAIL=info@codemunha.com
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
@@ -65,7 +65,7 @@ services:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./servers/codemunha:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
@@ -75,31 +75,18 @@ services:
     #     - wordpress
     restart: always
 
-  # Thinnycode
-  nginx-thinnycode:
+  # codemunha
+  nginx-codemunha:
     image: nginx
-    container_name: nginx-thinnycode
+    container_name: nginx-codemunha
     volumes:
-      - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./logs/nginx/codemunha:/var/log/nginx/codemunha
+      - ./servers/codemunha:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=thinnycode.com
-      - LETSENCRYPT_HOST=thinnycode.com
-      - LETSENCRYPT_EMAIL=admin@thinnycode.com
- 
-  # # Wordpress
-  # nginx-wrdpress.thinnycode:
-  #   image: nginx
-  #   container_name: nginx-wrdpress.thinnycode
-  #   volumes:
-  #     - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
-  #     - ./servers/wordpress.thinnycode:/usr/share/nginx/html:rw
-  #   restart: always
-  #   environment: 
-  #     - VIRTUAL_HOST=wordpress.thinnycode.com
-  #     - LETSENCRYPT_HOST=wordpress.thinnycode.com
-  #     - LETSENCRYPT_EMAIL=admin@thinnycode.com
+      - VIRTUAL_HOST=codemunha.com
+      - LETSENCRYPT_HOST=codemunha.com
+      - LETSENCRYPT_EMAIL=info@codemunha.com
 
   # Auto SSL & Letsencrypt
   letsencrypt:
@@ -109,7 +96,7 @@ services:
     env_file: .env
     volumes:
       - ./certs:/etc/nginx/certs:rw
-      - ./servers/thinnycode:/usr/share/nginx/html:rw
+      - ./servers/codemunha:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
