@@ -1,46 +1,60 @@
 version: '2'
 services:
-  # wordpress:
-  #   image: wordpress:5.2.2
-  #   build: ./wordpress
-  #   container_name: wordpress
-  #   restart: always
-  #   env_file: .env
-  #   volumes:
-  #     - ./wp-content:/usr/share/nginx/html
-  #     - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-  #   ports:
-  #     - 8088:80
-  # mysql:
-  #   image: mariadb:10.2.16
-  #   container_name: mysql
-  #   restart: always
-  #   #command: "--default-authentication-plugin=mysql_native_password"
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql:/var/lib/mysql
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
+  wordpress:
+    image: wordpress:5.2.2
+    build: ./wordpress
+    container_name: wordpress
+    restart: always
+    env_file: .env
+    volumes:
+      - ./wp-content:/usr/share/nginx/html:rw
+      - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment: 
+      - VIRTUAL_HOST=wordpress.thinnycode.com
+      - LETSENCRYPT_HOST=wordpress.thinnycode.com
+      - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
-  # mysql_jobs:
-  #   build: ./mysql_job_backup
-  #   container_name: mysql_backup
-  #   user: root
-  #   env_file: .env
-  #   volumes:
-  #     - ./mysql_job_backup/backup:/opt/mysql/backup
-  #   command: crond -f -d 8
-  #   restart: always
+  # MYSQL DATABASE
+  mysql:
+    image: mariadb:10.2.16
+    container_name: mysql
+    restart: always
+    #command: "--default-authentication-plugin=mysql_native_password"
+    env_file: .env
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./mysql_job_backup/backup:/opt/mysql/backup
+  
+  # MSQL BACKUP CROND
+  mysql_jobs:
+    build: ./mysql_job_backup
+    container_name: mysql_backup
+    user: root
+    env_file: .env
+    volumes:
+      - ./mysql_job_backup/backup:/opt/mysql/backup
+    command: crond -f -d 8
+    restart: always
 
-
+  # Adminer
   adminer:
     image: adminer
     container_name: adminer
     privileged: true
     restart: always
-    ports:
-      - "3333:80"
-    #env_file: .env
+    env_file: .env
+    environment: 
+      - VIRTUAL_HOST=adminer.thinnycode.com
+      - LETSENCRYPT_HOST=adminer.thinnycode.com
+      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+    volumes:
+      - ./certs:/etc/nginx/certs:rw
+      - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
+  # Nginx Proxy
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
@@ -51,7 +65,7 @@ services:
       - ./logs/nginx/:/var/log/nginx
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
-      - ./servers/codemunha:/usr/share/nginx/html:rw
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     labels:
        - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
@@ -61,30 +75,33 @@ services:
     #     - wordpress
     restart: always
 
-  nginx-codemunha:
+  # Thinnycode
+  nginx-thinnycode:
     image: nginx
-    container_name: nginx-codemunha
+    container_name: nginx-thinnycode
     volumes:
-      - ./logs/nginx/codemunha:/var/log/nginx/codemunha
-      - ./servers/codemunha:/usr/share/nginx/html:rw
+      - ./logs/nginx/thinnycode:/var/log/nginx/thinnycode
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
     restart: always
     environment: 
-      - VIRTUAL_HOST=codemunha.com
-      - LETSENCRYPT_HOST=codemunha.com
-      - LETSENCRYPT_EMAIL=admin@codemunha.com
+      - VIRTUAL_HOST=thinnycode.com
+      - LETSENCRYPT_HOST=thinnycode.com
+      - LETSENCRYPT_EMAIL=admin@thinnycode.com
+ 
+  # # Wordpress
+  # nginx-wrdpress.thinnycode:
+  #   image: nginx
+  #   container_name: nginx-wrdpress.thinnycode
+  #   volumes:
+  #     - ./logs/nginx/wordpress.thinnycode:/var/log/nginx/wordpress.thinnycode
+  #     - ./servers/wordpress.thinnycode:/usr/share/nginx/html:rw
+  #   restart: always
+  #   environment: 
+  #     - VIRTUAL_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_HOST=wordpress.thinnycode.com
+  #     - LETSENCRYPT_EMAIL=admin@thinnycode.com
 
-  nginx-wrdpress.codemunha:
-    image: nginx
-    container_name: nginx-wrdpress.codemunha
-    volumes:
-      - ./logs/nginx/blog.codemunha:/var/log/nginx/blog.codemunha
-      - ./servers/blog.codemunha:/usr/share/nginx/html:rw
-    restart: always
-    environment: 
-      - VIRTUAL_HOST=blog.codemunha.com
-      - LETSENCRYPT_HOST=blog.codemunha.com
-      - LETSENCRYPT_EMAIL=admin@codemunha.com
-
+  # Auto SSL & Letsencrypt
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: nginx-letsencrypt
@@ -92,7 +109,7 @@ services:
     env_file: .env
     volumes:
       - ./certs:/etc/nginx/certs:rw
-      - ./servers/codemunha:/usr/share/nginx/html:rw
+      - ./servers/thinnycode:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
