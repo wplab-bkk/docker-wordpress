@@ -14,7 +14,7 @@ services:
     environment: 
       - VIRTUAL_HOST=blog.codemunha.com
       - LETSENCRYPT_HOST=blog.codemunha.com
-      - LETSENCRYPT_EMAIL=admin@codemunha.com
+      - LETSENCRYPT_EMAIL=info@codemunha.com
 
   # MYSQL DATABASE
   mysql:
@@ -86,7 +86,7 @@ services:
     environment: 
       - VIRTUAL_HOST=codemunha.com
       - LETSENCRYPT_HOST=codemunha.com
-      - LETSENCRYPT_EMAIL=admin@codemunha.com
+      - LETSENCRYPT_EMAIL=support@codemunha.com
 
   # Auto SSL & Letsencrypt
   letsencrypt:
