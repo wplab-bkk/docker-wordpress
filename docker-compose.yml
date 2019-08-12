@@ -14,7 +14,7 @@ services:
     environment: 
       - VIRTUAL_HOST=blog.codemunha.com
       - LETSENCRYPT_HOST=blog.codemunha.com
-      - LETSENCRYPT_EMAIL=info@codemunha.com
+      - LETSENCRYPT_EMAIL=admin@codemunha.com
 
   # MYSQL DATABASE
   mysql:
@@ -48,7 +48,7 @@ services:
     environment: 
       - VIRTUAL_HOST=adminer.codemunha.com
       - LETSENCRYPT_HOST=adminer.codemunha.com
-      - LETSENCRYPT_EMAIL=info@codemunha.com
+      - LETSENCRYPT_EMAIL=admin@codemunha.com
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - ./nginx/vhost.d:/etc/nginx/vhost.d:rw
@@ -86,7 +86,7 @@ services:
     environment: 
       - VIRTUAL_HOST=codemunha.com
       - LETSENCRYPT_HOST=codemunha.com
-      - LETSENCRYPT_EMAIL=info@codemunha.com
+      - LETSENCRYPT_EMAIL=admin@codemunha.com
 
   # Auto SSL & Letsencrypt
   letsencrypt:
