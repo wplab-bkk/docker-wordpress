@@ -4,4 +4,4 @@ bower_components/
 logs/*
 mysql_job_backup/backup/*
 mysql/*
-certs/*
+
