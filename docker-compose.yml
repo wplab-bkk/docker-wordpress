@@ -7,7 +7,7 @@ services:
     restart: always
     env_file: .env
     volumes:
-      - ./wp-content:/usr/share/nginx/html:rw
+      - ./wp-content:/var/www/html/wp-content:rw
       - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro

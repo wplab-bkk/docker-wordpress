@@ -4,7 +4,7 @@ docker-compose down --remove-orphans --rmi 'all'
 sleep 5
 
 echo '# Delete Folders'
-rm -rf mysql logs certs
+rm -rf mysql logs
 
 echo '# docker-compose down'
 docker-compose -f docker-compose.yml down
