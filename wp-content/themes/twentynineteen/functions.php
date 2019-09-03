@@ -321,3 +321,8 @@ require get_template_directory() . '/inc/template-tags.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/** upload size limited */
+@ini_set( 'upload_max_size' , '200M' );
+@ini_set( 'post_max_size', '200M');
+@ini_set( 'max_execution_time', '3000' );
