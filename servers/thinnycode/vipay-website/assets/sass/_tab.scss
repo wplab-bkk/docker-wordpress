@@ -1,0 +1,26 @@
+.rds__sf-tab{
+    .nav-tabs{
+        .nav-link{
+            text-transform: uppercase;
+            color: map-get($theme-colors, secondary);
+
+            span{
+                font-size: 10pt;
+            }
+            
+            &.active{
+                border: none;
+                border-bottom: 1px solid map-get($theme-colors, primary );
+                color: map-get($theme-colors, primary );
+
+                &:hover, &:focus{
+                    border-bottom: 1px solid map-get($theme-colors, primary );
+                }
+            }
+
+            &:hover, &:focus{
+                border-color: transparent;
+            }
+        }
+    }
+}

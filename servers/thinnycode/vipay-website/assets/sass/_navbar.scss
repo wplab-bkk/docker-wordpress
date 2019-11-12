@@ -1,0 +1,42 @@
+.rds__nav-header{
+    transition: all .5s ease-in-out;
+    z-index: 300;
+    position: fixed;
+    top: 0;
+    width: 100%; 
+}
+.navbar-shrink{
+    background-color: #fff;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    border-bottom: 1px solid #dee2e6!important;
+}
+.navbar-nav {
+    .nav-item{
+        .nav-link {
+            transition: all .2s ease-in-out;
+            color: #343d4d;
+            border-bottom: transparent 2px solid;
+        }
+    }
+}
+.navbar-light{
+    .navbar-brand {
+        color: #f83560;
+        font-family: "Montserrat", "Times New Roman", Times, serif;
+        font-size: 20px;
+    }
+}
+.navbar-nav {
+    .nav-item:hover{ 
+        .nav-link {
+            color: #f83560 !important;
+            border-bottom: #f83560 2px solid;
+            margin: 0;
+        }
+    }
+}
+
+.rds__flag-lang {
+    width: 36px;
+    height: auto; 
+}

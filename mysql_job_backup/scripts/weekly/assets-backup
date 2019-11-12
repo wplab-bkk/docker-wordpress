@@ -1,0 +1,44 @@
+#!/bin/sh
+
+echo "Using Gzip Backup Assets "
+BACKUP_FOLDER="/opt/mysql/backup/assets/15min"
+NOW=$(date "+%Y-%m-%d-%H:%M:%S")
+
+TAR="$(which tar)"
+echo "Starting Comporession... at $BACKUP_FOLDER at $NOW"
+
+mkdir -p $BACKUP_FOLDER
+cd $BACKUP_FOLDER
+
+# set permission
+chmod -R 777 $BACKUP_FOLDER/*
+
+# using Gzip
+BACKUP_TAR_NAME="backup_wp_content-$NOW.tar.gz"
+
+# using bzip2
+BACKUP_BZ2_NAME="backup_wp_content-$NOW.tar.bz2"
+
+# $TAR -zcvf $BACKUP_TAR_NAME /var/www/html/wp_content/
+# -zcvf -z=zip, -c=create, -v=verbosely, -f=file name
+
+$TAR -jcvf $BACKUP_BZ2_NAME /var/www/html/wp_content/
+# -jcvf -j=biz2 zip, -c=create, -v=verbosely, -f=file name
+
+echo "Comporession Successfuly $BACKUP_BZ2_NAME at 15Min Shedule! "
+chmod -R 777 $BACKUP_FOLDER/*
+ls -la $BACKUP_FOLDER
+
+echo "Removing older backup files  please wait... "
+
+# loop files in directory
+for file in $BACKUP_FOLDER/*
+do
+    if [ "$file" = "$BACKUP_FOLDER/$BACKUP_BZ2_NAME" ] 
+    then
+        echo "Current backup file $file"
+    else
+        rm -rf $file
+        echo "removed older backup file $file"
+    fi
+done

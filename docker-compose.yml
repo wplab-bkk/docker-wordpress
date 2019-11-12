@@ -11,6 +11,7 @@ services:
       - ./php/upload.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./mysql_job_backup/backup/assets:/opt/mysql/backup/assets
     environment: 
       - VIRTUAL_HOST=wordpress.thinnycode.com
       - LETSENCRYPT_HOST=wordpress.thinnycode.com
@@ -34,6 +35,7 @@ services:
     user: root
     env_file: .env
     volumes:
+      - ./wp-content:/var/www/html/wp_content:rw
       - ./mysql_job_backup/backup:/opt/mysql/backup
     command: crond -f -d 8
     restart: always

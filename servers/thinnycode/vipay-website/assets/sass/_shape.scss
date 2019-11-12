@@ -1,0 +1,64 @@
+.rds__hexagon {
+    position: relative;
+    width:70px;
+    height:100px;
+    margin-left:40px;
+    color:#FFFFFF;
+    background-color:#FFFFFF;
+    text-align:center;
+    
+
+
+    &::before {
+        content:"";
+        position: absolute;
+        right: 100%;
+        top:0px;
+        width:0px;
+        height:0px;
+        border-top:50px solid transparent;
+        border-right:30px solid #FFFFFF;
+        border-bottom:50px solid transparent;
+    }
+
+    &::after {
+        content:"";
+        position: absolute;
+        left: 100%;
+        top:0px;
+        width:0px;
+        height:0px;
+        border-top:50px solid transparent;
+        border-left:30px solid #FFFFFF;
+        border-bottom:50px solid transparent;
+    }
+}
+
+.rds__dot-bg{
+    position: relative;
+
+    &:before{
+        content: "";
+        // background-image: url(../img/bg/svg/dot.svg);
+        background-size: 100% 100%;
+        background-position: center;
+        position: absolute;
+        width: 22%;
+        height: 200px;
+        top: -123px;
+        left: 5px;
+    }
+
+    &:after{
+        content: "";
+        // background-image: url(../img/bg/svg/dot.svg);
+        background-size: 100% 100%;
+        background-position: center;
+        position: absolute; 
+        width: 22%;
+        height: 200px;
+        top: 60px;
+        right: 5px;
+        z-index: -1;
+    }
+}
