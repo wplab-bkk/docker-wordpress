@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Using Gzip Backup Assets "
-BACKUP_FOLDER="/opt/mysql/backup/assets/monthly"
+BACKUP_FOLDER="/opt/mysql/backup/assets/hourly"
 NOW=$(date "+%Y-%m-%d-%H:%M:%S")
 
 TAR="$(which tar)"
